@@ -1,0 +1,81 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+  paths:
+    include:
+    - template.json
+    - parameters.json
+
+stages:
+  - stage: validateandtest
+    jobs:
+      - job: 'validateandtest'
+        pool:
+          vmimage: windows-latest
+        steps:
+          - task: AzureResourceManagerTemplateDeployment@3
+            displayName: "Validate ARM Template"
+            inputs:
+              deploymentScope: 'Resource Group'
+              azureResourceManagerConnection: 'Azure-DevOps-Service-Connection'
+              subscriptionId: 'ec118674-3721-445d-b678-e82801a3a6ff'
+              action: 'Create Or Update Resource Group'
+              resourceGroupName: 'devops-qa'
+              location: 'East US'
+              templateLocation: 'Linked artifact'
+              csmFile: '$(Build.SourcesDirectory)/template.json'
+              csmParametersFile: '$(Build.SourcesDirectory)/parameters.json'
+              deploymentMode: 'Validation'
+          - task: PowerShell@2
+            displayName: "Install-Module Az.Resources"
+            inputs:
+              targetType: 'inline'
+              script: 'Install-Module Az.Resources -RequiredVersion 1.12.1-preview -AllowPrerelease -Force -Scope CurrentUser'
+          - task: AzurePowerShell@5
+            displayName: "Display the deployed ARM resources"
+            inputs:
+              azureSubscription: 'Azure-DevOps-Service-Connection'
+              ScriptType: 'InlineScript'
+              Inline: |
+                $Parameters = @{
+                  ResourcegroupName     = "devops-qa"
+                  Templatefile          = "./template.json"
+                  TemplateParameterfile = "./parameters.json"
+                  Mode                  = 'Incremental'
+                }
+                $Result = Get-AzResourceGroupDeploymentWhatIfResult @Parameters
+                $Result
+              azurePowerShellVersion: 'LatestVersion'
+          - task: AzurePowerShell@5
+            displayName: "Check for deletion"
+            inputs:
+              azureSubscription: 'Azure-DevOps-Service-Connection'
+              ScriptType: 'FilePath'
+              ScriptPath: '$(Build.SourcesDirectory)/tests/CheckForDeletion.ps1'
+              ScriptArguments: '-ResourceGroup devops-qa'
+              azurePowerShellVersion: 'LatestVersion'
+  - stage: Deploy
+    condition:
+       succeeded()
+    dependsOn:
+      validateandtest
+    jobs:
+      - job: "deployARM"
+        pool:
+          vmimage: windows-latest
+        steps:
+          - task: AzureResourceManagerTemplateDeployment@3
+            inputs:
+              deploymentScope: 'Resource Group'
+              azureResourceManagerConnection: 'Azure-DevOps-Service-Connection'
+              subscriptionId: 'ec118674-3721-445d-b678-e82801a3a6ff'
+              action: 'Create Or Update Resource Group'
+              resourceGroupName: 'devops-qa'
+              location: 'East US'
+              templateLocation: 'Linked artifact'
+              csmFile: '$(Build.SourcesDirectory)/template.json'
+              csmParametersFile: '$(Build.SourcesDirectory)/parameters.json'
+              deploymentMode: 'Incremental'

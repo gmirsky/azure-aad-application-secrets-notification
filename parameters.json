@@ -1,0 +1,40 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "connections_keyvault_name": {
+            "value": "keyvault"
+        },
+        "connections_office365_name": {
+            "value": "office365"
+        },
+        "key_vault_name": {
+            "value": "devops-qa"
+        },
+        "workflows_azure_aad_application_secrets_notification_name": {
+            "value": "azure-aad-application-secrets-notification"
+        },
+        "deployment_location": {
+            "value": "eastus"
+        },
+        "client_id_secret": {
+            "value": "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX"
+        },
+        "client_secret_secret": {
+            "value": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+        },
+        "tenant_id_secret": {
+            "value": "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX"
+        },
+        "tags": {
+            "value": {
+                "Environment": "QA",
+                "Bicep_Managed": true,
+                "Owner": "Me, Myself & I",
+                "Maintainer": "Gregory N. Mirsky",
+                "Cost_Center": "Infrastructure-General",
+                "Deployed_By": "Azure DevOps Pipeline"
+            }
+        }
+    }
+}
