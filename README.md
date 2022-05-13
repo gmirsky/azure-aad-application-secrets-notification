@@ -184,13 +184,13 @@ A web browser has been opened at https://login.microsoftonline.com/organizations
 [
   {
     "cloudName": "AzureCloud",
-    "homeTenantId": "44f50e82-2836-43d7-8098-42f27530458b",
-    "id": "ec118674-3721-666d-b678-e82801a3a6ff",
+    "homeTenantId": "44f50e82-000-0000-0000-42f27530458b",
+    "id": "ec118674-0000-0000-0000-e82801a3a6ff",
     "isDefault": true,
     "managedByTenants": [],
     "name": "Azure subscription 1",
     "state": "Enabled",
-    "tenantId": "44f50e82-2836-43d7-8098-42f27530458b",
+    "tenantId": "44f50e82-000-0000-000-42f27530458b",
     "user": {
       "name": "some_user@somedomain.net",
       "type": "user"
