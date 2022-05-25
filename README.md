@@ -6,6 +6,8 @@
 
 Azure Logic App to notify administrators of pending Azure Active Directory Application Client Secrets and Certificate Expirations. This application is deployed using a CI/CD pipeline that uses a Bicep file to generate a ARM Template that, when pushed to the repository, will trigger off the pipeline.
 
+![aad_application](diagrams/aad_application.png)
+
 This repository houses the ARM template to deploy the logic app infrastructure to alert you via email when a Azure Active Directory Application Secret is going to expire.
 
 The email will contain the following information when a secret is close to expiration.
@@ -135,7 +137,7 @@ For more detailed information on each step please consult the Azure Logic App de
 
 ## Self-Demonstration
 
-To self demonstrate the CI/CD pipeline complete the following steps. 
+Assuming that the Azure DevOps pipeline has been deployted to your Azure DevOps environment, to self demonstrate the CI/CD pipeline complete the following steps. 
 
 In this demonstration we will add a new tag to be added to all of the Azure assets that have been deployed in the resource group.
 
