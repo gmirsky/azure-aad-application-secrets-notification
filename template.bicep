@@ -112,6 +112,7 @@ param key_vault_name string
 param deployment_location string = 'eastus' //resourceGroup().location
 
 @description('Workflow name of the application')
+#disable-next-line secure-secrets-in-params   // Doesn't contain a secret
 param workflows_azure_aad_application_secrets_notification_name string = 'azure-aad-application-secrets-notification'
 
 @secure()
@@ -236,7 +237,7 @@ resource connections_keyvault_name_resource 'Microsoft.Web/connections@2016-06-0
       description: 'Azure Key Vault is a service to securely store and access secrets.'
       iconUri: 'https://connectoricons-prod.azureedge.net/releases/v1.0.1566/1.0.1566.2741/${connections_keyvault_name}/icon.png'
       brandColor: '#0079d6'
-      id: '/subscriptions/${subscription().subscriptionId}/providers/Microsoft.Web/locations/eastus/managedApis/${connections_keyvault_name}'
+      //id: '/subscriptions/${subscription().subscriptionId}/providers/Microsoft.Web/locations/eastus/managedApis/${connections_keyvault_name}'
       type: 'Microsoft.Web/locations/managedApis'
     }
     testLinks: []
@@ -264,7 +265,7 @@ resource connections_office365_name_resource 'Microsoft.Web/connections@2016-06-
       description: 'Microsoft Office 365 is a cloud-based service that is designed to help meet your organization\'s needs for robust security, reliability, and user productivity.'
       iconUri: 'https://connectoricons-prod.azureedge.net/releases/v1.0.1573/1.0.1573.2770/${connections_office365_name}/icon.png'
       brandColor: '#0078D4'
-      id: '/subscriptions/${subscription().subscriptionId}/providers/Microsoft.Web/locations/eastus/managedApis/${connections_office365_name}'
+      //id: '/subscriptions/${subscription().subscriptionId}/providers/Microsoft.Web/locations/eastus/managedApis/${connections_office365_name}'
       type: 'Microsoft.Web/locations/managedApis'
     }
     testLinks: [
